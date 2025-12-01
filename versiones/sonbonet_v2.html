@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Necesidades V2 - Campus Esment Son Bonet</title>
+    <style>
+        /* Variables y Colores */
+        :root {
+            --esment-yellow: #FFC107;
+            --dark-blue: #2c3e50;
+            --light-grey: #f8f9fa;
+            --text-color: #34495e;
+            --white: #ffffff;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --spacing-unit: 1.5rem;
+        }
+
+        /* Estilos Generales */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--white);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--spacing-unit);
+        }
+        h1, h2, h3, h4 {
+            color: var(--dark-blue);
+            line-height: 1.3;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 2.2em; border-bottom: 4px solid var(--esment-yellow); padding-bottom: 0.5rem; margin-bottom: 2rem; }
+        h3 { font-size: 1.8em; }
+        h4 { font-size: 1.4em; color: var(--dark-blue); margin-top: 2.5rem; }
+        strong { color: var(--dark-blue); }
+        .intro-text { font-size: 1.1em; color: #555; margin-bottom: 2rem; }
+
+        /* Cabecera */
+        header {
+            background-color: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 4px solid var(--esment-yellow);
+        }
+        header .container { display: flex; align-items: center; justify-content: center; }
+        header .logo img { height: 40px; width: auto; }
+        header h1 { margin: 0 0 0 1.5rem; color: var(--dark-blue); }
+
+        /* Sección de Bienvenida */
+        .hero { text-align: center; padding: 4rem 1.5rem; background-color: var(--light-grey); }
+        .hero h2 { font-size: 2.8em; margin-bottom: 1.5rem; }
+        .hero p { max-width: 800px; margin: 0 auto; font-size: 1.2em; }
+
+        /* Sección "Cómo nos lo imaginamos" */
+        .vision-section { padding: 3rem 0; }
+        .vision-section h2 { text-align: center; }
+        .vision-single { text-align: center; margin-top: 2rem; }
+        .vision-single img {
+            max-width: 90%;
+            max-height: 450px;
+            object-fit: cover;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        .vision-single p { max-width: 700px; margin: 0 auto; font-style: italic; color: #555; }
+
+        /* Navegación por Servicios */
+        .nav-servicios {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--light-grey);
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        .nav-servicios a {
+            display: inline-block;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .nav-servicios a:hover {
+            background-color: var(--esment-yellow);
+            color: var(--dark-blue);
+        }
+        
+        /* Secciones de Servicios */
+        .seccion-servicio { padding: 3rem 0; border-bottom: 1px solid #eee; }
+        .seccion-servicio:last-child { border-bottom: none; }
+        
+        .servicio-header { margin-bottom: 2rem; }
+        .servicio-header h3 {
+            color: var(--dark-blue);
+            border-left: 5px solid var(--esment-yellow);
+            padding-left: 1.5rem;
+            font-size: 2em;
+        }
+        
+        /* Detalles Desplegables */
+        details { background-color: var(--white); border: 1px solid #ddd; border-radius: 5px; margin: 1.5rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        summary { font-weight: bold; font-size: 1.2em; padding: 1.2rem 1.5rem; cursor: pointer; outline: none; color: var(--dark-blue); position: relative; }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▶'; position: absolute; left: 1.5rem; color: var(--esment-yellow); transition: transform 0.3s ease; }
+        details[open] > summary::before { transform: rotate(90deg); }
+        details .content { padding: 0.5rem 1.5rem 1.5rem 1.5rem; border-top: 1px solid #eee; }
+        
+        /* Tablas detalladas */
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.95em; }
+        th, td { border: 1px solid #ccc; padding: 0.9rem; text-align: left; vertical-align: top; }
+        th { background-color: var(--dark-blue); color: var(--white); }
+        tr:nth-child(even) { background-color: var(--light-grey); }
+        td ul { padding-left: 20px; margin: 0; }
+        .sub-header { background-color: #e9ecef; font-weight: bold; color: var(--dark-blue); }
+
+        /* Contenedor y botones para PDFs */
+        .button-container { display: flex; gap: 1rem; flex-wrap: wrap; padding-top: 1rem; }
+        .pdf-button { background-color: var(--text-color); color: var(--white); padding: 0.8rem 1.5rem; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background-color 0.3s ease; text-align: center; }
+        .pdf-button:hover { background-color: var(--esment-yellow); color: var(--dark-blue); }
+
+        /* Sección Final */
+        .seccion-final { padding: 3rem 0; background-color: var(--dark-blue); color: var(--white); text-align: center; }
+        .seccion-final h2 { color: var(--esment-yellow); margin-bottom: 2rem; }
+        .seccion-final p { max-width: 700px; margin: 0 auto 1rem auto; font-size: 1.1em; }
+        .seccion-final strong { color: var(--esment-yellow); }
+        .seccion-final ul { list-style: none; padding: 0; max-width: 600px; margin: 1rem auto; text-align: left; }
+        .seccion-final li { margin-bottom: 0.5rem; }
+
+        /* Pie de Página */
+        footer { background-color: #34495e; color: var(--white); text-align: center; padding: var(--spacing-unit) 0; }
+        footer a { color: var(--esment-yellow); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="resources/logo_simple.png" alt="Logo Esment">
+            </div>
+            <h1>Campus Esment Son Bonet</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Un campus social para la inclusión, la formación y la ocupación</h2>
+                <p>
+                    Este documento presenta la <strong>Versión 2</strong> del programa de necesidades para el Campus Esment Son Bonet. El proyecto se estructura en un único edificio de 4.000 m² (2.000 m² por planta) organizado en tres grandes áreas de servicio: Producción e Inserción (Obrador), Formación (Escuela Social) y Vida Independiente (Viviendas).
+                </p>
+            </div>
+        </section>
+
+        <section class="vision-section" id="vision">
+            <div class="container">
+                <h2>Cómo nos lo imaginamos</h2>
+                 <div class="vision-single">
+                    <img src="resources/esment_son_bonet.png" alt="Imagen conceptual del campus Esment Son Bonet">
+                    <p>Una visión integrada del campus donde conviven la producción artesanal, la formación especializada y la vivienda colaborativa, creando un ecosistema de apoyos completo.</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="nav-servicios">
+            <a href="#servicio-obrador">1. Obrador y Logística</a>
+            <a href="#servicio-escuela">2. Escuela Profesional Social</a>
+            <a href="#servicio-vivienda">3. Viviendas Colaborativas</a>
+        </nav>
+
+        <section id="servicio-obrador" class="seccion-servicio">
+            <div class="container">
+                <div class="servicio-header">
+                    <h3>1. Obrador y Logística (1.500 m² - Planta Baja)</h3>
+                    <p class="intro-text">
+                        En Esment queremos potenciar nuestro obrador artesanal. Es hora de hacer más escalable nuestra panadería y pastelería bajo la marca <strong>"Can Pa"</strong>. Este servicio, ubicado en la planta baja, ocupa 1.500 m² y actúa como un motor clave de inserción sociolaboral. Combina la producción artesanal con una potente infraestructura logística y de almacenamiento.
+                        <br><br>
+                        Este nuevo espacio dará soporte a aproximadamente <strong>72 personas</strong>, distribuidas entre el obrador (35), personal itinerante (15), almacén (12) y el punto de venta (10). La transparencia en el diseño permitirá mostrar el valor y la profesionalidad del trabajo realizado, convirtiéndolo en un referente de calidad y oportunidad.
+                    </p>
+                </div>
+
+                <details open>
+                    <summary>▶ Ver Desglose de Espacios (Obrador + Logística)</summary>
+                    <div class="content">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Denominación del Espacio</th>
+                                        <th>Uso y Descripción Funcional</th>
+                                        <th>Superficie (m²)</th>
+                                        <th>Requisitos Clave y Relaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="sub-header"><td colspan="4">Zonas de Producción</td></tr>
+                                    <tr><td><strong>Taller de Obrador (Pan/Bollería)</strong></td><td>Zona principal unificada para amasado, formado y horneado.</td><td><strong>220</strong></td><td>Zona caliente con hornos. Extracción de humos. Conectado a almacenes y cámaras.</td></tr>
+                                    <tr><td><strong>Talleres Especializados</strong></td><td>Cuartos fríos para Pastelería, Chocolatería y Heladería.</td><td><strong>125</strong></td><td>Espacios climatizados independientes con equipamiento específico.</td></tr>
+                                    <tr class="sub-header"><td colspan="4">Logística y Procesos</td></tr>
+                                    <tr><td><strong>Taller de Packaging</strong></td><td>Espacio de formación y trabajo en empaquetado final.</td><td><strong>100</strong></td><td>Cuarto frío. Ubicación clave: adyacente al Obrador y conectado a cámaras.</td></tr>
+                                    <tr><td><strong>Cámaras (Ferm, Ultra, Stock)</strong></td><td>Gestión de temperatura y procesos.</td><td><strong>80</strong></td><td>Integradas en obra. Ubicación estratégica en el flujo de producción.</td></tr>
+                                    <tr><td><strong>Talleres de Almacén (MP, Menaje)</strong></td><td>Almacenes de día y materia prima auxiliar.</td><td><strong>170</strong></td><td>Gestión de stock diario.</td></tr>
+                                    <tr><td><strong>Almacén General Logístico</strong></td><td><strong>NUEVO.</strong> Gran zona de almacenaje para logística y distribución a otros centros.</td><td><strong>300</strong></td><td>Espacio diáfano con estanterías industriales. Acceso directo a muelles de carga.</td></tr>
+                                    <tr class="sub-header"><td colspan="4">Personal y Gestión</td></tr>
+                                    <tr><td><strong>Vestuarios y Aseos</strong></td><td>Para el personal de obrador.</td><td><strong>100</strong></td><td>Acceso directo desde entrada de personal.</td></tr>
+                                    <tr><td><strong>Comedor / Descanso</strong></td><td>Zona de descanso.</td><td><strong>100</strong></td><td>Espacio confortable. Cercanía deseada con zona pública.</td></tr>
+                                    <tr><td><strong>Servicios (Plonge/Basuras)</strong></td><td>Limpieza y residuos refrigerados.</td><td><strong>90</strong></td><td>Cuarto de basuras refrigerado.</td></tr>
+                                    <tr><td><strong>Oficina de Gestión</strong></td><td>Control de producción.</td><td><strong>15</strong></td><td>Visión directa a producción.</td></tr>
+                                    <tr><td><strong>Sala de Reuniones de Equipo</strong></td><td><strong>NUEVO.</strong> Espacio de coordinación y reuniones de equipo.</td><td><strong>45</strong></td><td>Adyacente a la oficina de gestión.</td></tr>
+                                    <tr class="sub-header"><td colspan="4">Zona Pública</td></tr>
+                                    <tr><td><strong>Taller de Comercio (Punto de Venta)</strong></td><td>Tienda-café abierta al público con aseos.</td><td><strong>130</strong></td><td>Máxima transparencia visual hacia el obrador.</td></tr>
+                                    <tr><td><strong>Circulaciones Internas</strong></td><td>Pasillos técnicos y zonas de paso.</td><td><strong>25</strong></td><td>Flujos separados limpio/sucio.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Total Superficie Obrador: 1.500 m²</strong></p>
+                    </div>
+                </details>
+                 <details>
+                    <summary>▶ Ejemplos de otros espacios Esment</summary>
+                    <div class="content button-container">
+                        <a href="resources/Palma_Obrador.pdf" class="pdf-button" target="_blank">Ver PDF: Obrador de Palma</a>
+                        <a href="resources/Inca_Obrador.pdf" class="pdf-button" target="_blank">Ver PDF: Obrador de Inca</a>
+                        <a href="resources/Inca_Sotano.pdf" class="pdf-button" target="_blank">Ver PDF: Sótano de Inca</a>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="servicio-escuela" class="seccion-servicio">
+            <div class="container">
+                <div class="servicio-header">
+                    <h3>2. Escuela Profesional Social (1.500 m² - Planta Primera)</h3>
+                    <p class="intro-text">
+                        La Esment Escola Professional tiene el gran reto de consolidarse como un <strong>campus profesional social de referencia</strong>. Esta planta de 1.500 m² unifica todos los espacios educativos: aulas teóricas, talleres de simulación y zonas de trabajo colaborativo.
+                        <br><br>
+                        El objetivo es doble: ofrecer <strong>oportunidades de formación, ocupación e inserción</strong> a colectivos vulnerables, y dar respuesta a la creciente <strong>demanda de profesionales cualificados</strong> en el sector sociosanitario. Aquí se formarán los futuros profesionales del cuidado, en un entorno dotado de espacios adaptados y las últimas tecnologías.
+                    </p>
+                </div>
+
+                <details open>
+                    <summary>▶ Ver Desglose de Espacios (Escuela)</summary>
+                    <div class="content">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Denominación del Espacio</th>
+                                        <th>Uso y Descripción Funcional</th>
+                                        <th>Superficie (m²)</th>
+                                        <th>Requisitos Clave y Relaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="sub-header"><td colspan="4">Aulas y Talleres de Formación</td></tr>
+                                    <tr><td><strong>Aulas Polivalentes (Teoría)</strong></td><td>6 aulas de 65 m² para formación teórica general.</td><td><strong>390</strong></td><td>Dos de ellas comunicables (Aula-Taller). Aislamiento acústico.</td></tr>
+                                    <tr><td><strong>Taller Sociosanitario</strong></td><td>Simulación de entorno domiciliario (cocina, camas, etc.).</td><td><strong>(incl.)</strong></td><td>Integrado en una de las aulas comunicables.</td></tr>
+                                    <tr><td><strong>Salas Polivalentes (Profes/Tutorías)</strong></td><td>5 salas de 30m² + 5 salas de 15m² para gestión y tutorías.</td><td><strong>225</strong></td><td>Espacios para el equipo docente y atención al alumno.</td></tr>
+                                    
+                                    <tr class="sub-header"><td colspan="4">Salas de Trabajo y Atención</td></tr>
+                                    <tr><td><strong>Salón de Actos / Sala Polivalente</strong></td><td>Espacio para eventos, conferencias y grandes grupos.</td><td><strong>150</strong></td><td>Espacio representativo con equipamiento audiovisual.</td></tr>
+                                    <tr><td><strong>Salas de Valoración (Familias)</strong></td><td>Atención individualizada y privacidad para familias.</td><td><strong>45</strong></td><td>3 salas de 15m². Ubicación discreta.</td></tr>
+                                    <tr><td><strong>Salas Polivalentes Grupos</strong></td><td>Salas de trabajo para seminarios y equipos (3x30m²).</td><td><strong>90</strong></td><td>Equipadas con pizarras y medios digitales.</td></tr>
+                                    <tr><td><strong>Cabinas Estudio ("Phone Booths")</strong></td><td>Espacios individuales de concentración.</td><td><strong>20</strong></td><td>Insonorizadas.</td></tr>
+                                    
+                                    <tr class="sub-header"><td colspan="4">Zonas Comunes y Trabajo Abierto</td></tr>
+                                    <tr><td><strong>Zona de Estudio "Open Space"</strong></td><td>Biblioteca y trabajo colaborativo tipo co-working.</td><td><strong>300</strong></td><td>Espacio diáfano, luz natural, mobiliario flexible.</td></tr>
+                                    <tr><td><strong>Recepción y Zonas Comunes</strong></td><td>Acceso, descanso, aseos generales y circulaciones amplias.</td><td><strong>280</strong></td><td>Espacios de socialización y encuentro.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>Total Superficie Escuela: 1.500 m²</strong></p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="servicio-vivienda" class="seccion-servicio">
+            <div class="container">
+                <div class="servicio-header">
+                    <h3>3. Viviendas Sociales Colaborativas (1.000 m² - PB + P1)</h3>
+                    <p class="intro-text">
+                        El proyecto se completa con nuestra aportación para solucionar el problema de acceso a una vivienda digna. Este servicio ocupa <strong>500 m² en Planta Baja</strong> y <strong>500 m² en Planta Primera</strong>, facilitando la integración comunitaria.
+                        <br><br>
+                        Con capacidad para <strong>18 viviendas</strong> (9 por planta), busca ofrecer no solo un hogar, sino un modelo de vida colaborativo y autónomo, bajo un enfoque de triple impacto: social, económico y de sostenibilidad ambiental.
+                    </p>
+                </div>
+
+                <details open>
+                    <summary>▶ Ver Desglose de Espacios (Vivienda)</summary>
+                    <div class="content">
+                       <div class="table-wrapper">
+                           <table>
+                               <thead><tr><th>Concepto</th><th>Detalle</th></tr></thead>
+                               <tbody>
+                                   <tr><td>Distribución Vertical</td><td><strong>500 m² en Planta Baja + 500 m² en Planta Primera</strong></td></tr>
+                                   <tr><td>Capacidad Total</td><td><strong>18 Viviendas</strong> (9 por planta)</td></tr>
+                               </tbody>
+                           </table>
+                       </div>
+                       <h4>Programa por Planta (Tipo)</h4>
+                       <ul>
+                           <li><strong>Viviendas (9 uds.):</strong> ~360 m² (40 m² x 9). Constan de salón-comedor-cocina, dormitorio y baño adaptado.</li>
+                           <li><strong>Zonas Comunes y Circulación:</strong> ~140 m² por planta.
+                                <ul>
+                                    <li>Incluye salas de estar/encuentro.</li>
+                                    <li>Zonas de lavandería y almacenamiento.</li>
+                                </ul>
+                           </li>
+                       </ul>
+                       <p><em>*La planta baja incluirá preferentemente el despacho de supervisión y la sala polivalente comunitaria dentro de esos 140m² de zonas comunes.</em></p>
+                       <p><strong>Total Superficie Vivienda: 1.000 m²</strong></p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="seccion-final">
+            <div class="container">
+                <h2>Principios Generales del Campus</h2>
+                <p><strong>Circulación Vertical:</strong> 2 Ascensores de pasajeros + 1 Montacargas de servicio.</p>
+                <p><strong>Accesibilidad Universal:</strong> Garantizada en todos los niveles y servicios.</p>
+                <p><strong>Sostenibilidad:</strong> Eficiencia energética y materiales saludables.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Esment Son Bonet</p>
+            <p><a href="https://esment.org/" target="_blank">www.esment.org</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
